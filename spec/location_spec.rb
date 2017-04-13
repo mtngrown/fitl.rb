@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module Fitl
   RSpec.describe Location do
-    let(:file) { File.join(__dir__, 'fixtures/locations.yaml') }
+    let(:file) { File.join(__dir__, 'fixtures/playbook-4.yaml') }
 
     subject(:location) { Location.new }
 

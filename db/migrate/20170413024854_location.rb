@@ -10,7 +10,8 @@ class Location < ActiveRecord::Migration[5.0]
       t.string :country
       t.string :value
       t.string :control
-      t.integer :support,         default: 0
+      t.string :support
+      t.string :opposition
       t.integer :us_troop,        default: 0
       t.integer :us_irregular,    default: 0
       t.integer :arvn_troop,      default: 0

@@ -71,6 +71,25 @@ module Fitl
         expect(none).to eq expected
       end
 
+      describe '.us_troops_in_cambodia' do
+        subject(:troops) { Location.us_troops_in_cambodia_or_laos }
+
+        it 'finds no troops by default' do
+          expect(troops).to eq []
+        end
+
+        it 'finds some US Troops in Laos' do
+          create :laos_location, us_troop: 5
+          expect(troops.size).to eq 1
+        end
+
+        it 'finds US Troops in Laos and Cambodia' do
+          create :laos_location, us_troop: 5
+          create :cambodia_location, us_troop: 2
+          expect(troops.size).to eq 2
+        end
+      end
+
       xit 'finds us airlift eligible source locations' do
         Location.build_from_yaml file
         expect(Location.airlift_eligible_sources.size).to eq 15

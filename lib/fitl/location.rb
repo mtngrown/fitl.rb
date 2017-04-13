@@ -39,7 +39,7 @@ module Fitl
       sql = "locations.name, CASE
           WHEN us_troop + us_base + us_irregular + arvn_troop + arvn_base + arvn_ranger + arvn_police
             > nva_troop + nva_base + nva_tunnel_base + nva_guerrilla + vc_guerrilla + vc_base + vc_tunnel_base THEN 'COIN'
-          WHEN nva_base + nva_tunnel_base + nva_guerrilla
+          WHEN nva_troop + nva_base + nva_tunnel_base + nva_guerrilla
             > us_base + us_irregular + arvn_troop + arvn_base + arvn_ranger + arvn_police + vc_guerrilla + vc_base + vc_tunnel_base THEN 'NVA'
           ELSE 'NONE'
           END as control"

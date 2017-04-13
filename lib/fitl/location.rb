@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'active_model'
 
 module Fitl
   class Location
     include ActiveModel::Model
 
-    PROPERTIES = [:name, :population, :terrain, :type, :country]
+    PROPERTIES = %i[name population terrain type country].freeze
     PROPERTIES.each { |p| attr_accessor p }
 
     attr_accessor :support, :control
@@ -22,7 +24,6 @@ module Fitl
         locations_hash[location['name']] = Location.new(location)
       end
       locations_hash
-
     end
   end
 end

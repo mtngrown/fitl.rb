@@ -26,7 +26,7 @@ end
 
 root = File.expand_path '..', __FILE__
 DatabaseTasks.env = ENV['ENV'] || 'development'
-DatabaseTasks.database_configuration = YAML.load(File.read(File.join(root, 'config/database.yml')))
+DatabaseTasks.database_configuration = YAML.safe_load(File.read(File.join(root, 'config/database.yml')))
 DatabaseTasks.db_dir = File.join root, 'db'
 DatabaseTasks.fixtures_path = File.join root, 'test/fixtures'
 DatabaseTasks.migrations_paths = [File.join(root, 'db/migrate')]
@@ -40,15 +40,15 @@ end
 load 'active_record/railties/databases.rake'
 
 namespace :db do
-  desc "Create a migration (parameters: NAME, VERSION)"
+  desc 'Create a migration (parameters: NAME, VERSION)'
   task :create_migration do
-    unless ENV["NAME"]
-      puts "No NAME specified. Example usage: `rake db:create_migration NAME=create_users`"
+    unless ENV['NAME']
+      puts 'No NAME specified. Example usage: `rake db:create_migration NAME=create_users`'
       exit
     end
 
-    name    = ENV["NAME"]
-    version = ENV["VERSION"] || Time.now.utc.strftime("%Y%m%d%H%M%S")
+    name    = ENV['NAME']
+    version = ENV['VERSION'] || Time.now.utc.strftime('%Y%m%d%H%M%S')
 
     ActiveRecord::Migrator.migrations_paths.each do |directory|
       next unless File.exist?(directory)
@@ -64,7 +64,7 @@ namespace :db do
     path     = File.join(dirname, filename)
     ar_maj   = ActiveRecord::VERSION::MAJOR
     ar_min   = ActiveRecord::VERSION::MINOR
-    base     = "ActiveRecord::Migration"
+    base     = 'ActiveRecord::Migration'
     base    += "[#{ar_maj}.#{ar_min}]" if ar_maj >= 5
 
     FileUtils.mkdir_p(dirname)

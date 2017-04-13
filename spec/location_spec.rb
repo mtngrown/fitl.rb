@@ -23,6 +23,7 @@ module Fitl
 
       it 'deals with the case statement' do
         Location.build_from_yaml file
+        control = Location.case_for_control
 
         expected = [
           'Quang Tri',
@@ -44,11 +45,30 @@ module Fitl
           'Can Tho',
           'Kien Giang'
         ]
+        coin = control.select { |e| e.control == 'COIN' }.map { |e| e.name }
+        expect(coin).to eq expected
 
-        control = Location.case_for_control
-        control.each do |c|
-          expected.include? c.name
-        end
+        expected = [
+          "North Vietnam",
+          "Central Laos",
+          "Southern Laos",
+          "Northeast Cambodia",
+          "The Fishhook",
+          "The Parrot's Beak",
+          "Sihnoukville"
+        ]
+        nva = control.select { |e| e.control == 'NVA' }.map { |e| e.name }
+        expect(nva).to eq expected
+
+        expected = [
+          "Quang Nam",
+          "Phuoc Long",
+          "Kien Phong",
+          "Kien Hoa",
+          "Ba Xuyen"
+        ]
+        none = control.select { |e| e.control == 'NONE' }.map { |e| e.name }
+        expect(none).to eq expected
       end
 
       xit 'finds us airlift eligible source locations' do

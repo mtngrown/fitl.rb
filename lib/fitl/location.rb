@@ -35,16 +35,29 @@ module Fitl
     scope :province_or_city, -> { where("location_type = 'province' OR location_type = 'city'") }
 
     def self.case_for_control
-
       sql = "locations.name, CASE
-          WHEN us_troop + us_base + us_irregular + arvn_troop + arvn_base + arvn_ranger + arvn_police
-            > nva_troop + nva_base + nva_tunnel_base + nva_guerrilla + vc_guerrilla + vc_base + vc_tunnel_base THEN 'COIN'
-          WHEN nva_troop + nva_base + nva_tunnel_base + nva_guerrilla
-            > us_base + us_irregular + arvn_troop + arvn_base + arvn_ranger + arvn_police + vc_guerrilla + vc_base + vc_tunnel_base THEN 'NVA'
+          WHEN #{us_count} + #{arvn_count} > #{nva_count} + #{vc_count} THEN 'COIN'
+          WHEN #{nva_count} > #{us_count} + #{arvn_count} + #{vc_count} THEN 'NVA'
           ELSE 'NONE'
           END as control"
       query = sanitize_sql_array([sql].flatten)
       select(query).province_or_city
+    end
+
+    def self.us_count
+      'us_troop + us_base + us_irregular'
+    end
+
+    def self.arvn_count
+      'arvn_troop + arvn_base + arvn_ranger + arvn_police'
+    end
+
+    def self.nva_count
+      'nva_troop + nva_base + nva_tunnel_base + nva_guerrilla'
+    end
+
+    def self.vc_count
+      'vc_guerrilla + vc_base + vc_tunnel_base'
     end
 
     def self.airlift_eligible_sources

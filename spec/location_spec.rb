@@ -11,7 +11,8 @@ module Fitl
     describe '.build_from_yaml' do
       it 'builds from a yaml file' do
         file = File.join(__dir__, 'fixtures/locations.yaml')
-        expect(Location.build_from_yaml(file)).not_to be nil
+        actual = Location.build_from_yaml file
+        expect(actual.size).to eq 36
       end
     end
   end

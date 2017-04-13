@@ -1,10 +1,246 @@
 ---
 - name: Saigon
   population: 6
-  type: province
+  location_type: province
   country: South Vietnam
+  terrain:
 
 - name: The Parrot's Beak
   population: 6
-  type: province
+  location_type: province
   country: Cambodia
+  terrain:
+
+- name: North Vietnam
+  population: 0
+  location_type: province
+  country: North Vietnam
+  terrain:
+
+- name: Hue
+  population: 2
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: Quang Tri - Thua Tien
+  population: 2
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Route 1
+  location_type: loc
+  value: 1
+  country: South Vietnam
+  terrain:
+
+- name: Qui Nhon
+  population: 1
+  value:
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: Cam Ranh
+  population: 1
+  value:
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: An Loc
+  population: 1
+  value:
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: Can Tho
+  population: 1
+  value:
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: Da Nang
+  population: 1
+  value:
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: Kontum
+  population: 1
+  value:
+  location_type: city
+  country: South Vietnam
+  terrain:
+
+- name: Binh Dinh
+  population: 2
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Quang Nam
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Pleiku
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Quang Tin
+  population: 2
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Quang Duc
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Phuoc Long
+  population: 0
+  value:
+  location_type: province
+  country: South Vietname
+  terrain: jungle
+
+- name: Binh Tuy
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Tay Ninh
+  population: 2
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain:
+
+- name: Phu Bon
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain: lowland
+
+- name: Khanh Hoa
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain: highland
+
+- name: Kien Hoa
+  population: 2
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain: lowland
+
+- name: Ba Xuyen
+  population: 1
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain: lowland
+
+- name: Kien Phong
+  population: 2
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain: lowland
+
+- name: Kien Giang
+  population: 2
+  value:
+  location_type: province
+  country: South Vietnam
+  terrain: lowland
+
+- name: Central Laos
+  population: 0
+  value:
+  location_type: province
+  country: Laos
+  terrain: jungle
+
+- name: Southern Laos
+  population: 0
+  value:
+  location_type: province
+  country: Laos
+  terrain: jungle
+
+- name: Northeast Cambodia
+  population: 0
+  value:
+  location_type: province
+  country: Cambodia
+  terrain: jungle
+
+- name: The Fishhook
+  population: 0
+  value:
+  location_type: province
+  country: Cambodia
+  terrain: jungle
+
+- name: Sihnoukville
+  population: 0
+  value:
+  location_type: province
+  country: Cambodia
+  terrain: jungle
+
+- name: Mekong
+  population:
+  value: 1
+  location_type: loc
+  country: South Vietnam
+  terrain:
+
+- name: Route 14
+  population:
+  value: 1
+  location_type: loc
+  country: South Vietnam
+  terrain:
+
+- name: Route 20
+  population:
+  value: 1
+  location_type: loc
+  country: South Vietnam
+  terrain:
+
+- name: Route 19
+  population:
+  value: 1
+  location_type: loc
+  country: South Vietnam
+  terrain:
+
+- name: Route 21
+  population:
+  value: 1
+  location_type: loc
+  country: South Vietnam
+  terrain:

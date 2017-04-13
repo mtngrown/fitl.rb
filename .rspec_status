@@ -1,5 +1,5 @@
 example_id                     | status | run_time        |
 ------------------------------ | ------ | --------------- |
-./spec/fitl_spec.rb[1:1]       | passed | 0.00044 seconds |
-./spec/location_spec.rb[1:1]   | passed | 0.00012 seconds |
-./spec/location_spec.rb[1:2:1] | passed | 0.018 seconds   |
+./spec/fitl_spec.rb[1:1]       | passed | 0.0005 seconds  |
+./spec/location_spec.rb[1:1]   | passed | 0.01403 seconds |
+./spec/location_spec.rb[1:2:1] | passed | 0.05619 seconds |

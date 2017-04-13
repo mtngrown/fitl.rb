@@ -1,0 +1,10 @@
+---
+- name: Saigon
+  population: 6
+  type: province
+  country: South Vietnam
+
+- name: The Parrot's Beak
+  population: 6
+  type: province
+  country: Cambodia

@@ -21,7 +21,13 @@ module Fitl
         expect(nva_bases.size).to eq 8
       end
 
-      it 'finds us airlift eligible source locations' do
+      it 'deals with the case statement' do
+        Location.build_from_yaml file
+        control = Location.case_for_control
+        binding.pry
+      end
+
+      xit 'finds us airlift eligible source locations' do
         Location.build_from_yaml file
         expect(Location.airlift_eligible_sources.size).to eq 15
 
@@ -29,7 +35,6 @@ module Fitl
         expect(vc_locations.size).to eq 13
 
         us_locations = Location.us_per_location
-        binding.pry
         expect(us_locations.size).to eq 15
 
         arvn_locations = Location.arvn_per_location

@@ -32,7 +32,16 @@ module Fitl
                 us_troop + us_base + us_irregular + arvn_base + arvn_troop + arvn_ranger")
     }
 
-    def self.adjust_control
+    scope :province_or_city, -> { where("location_type = 'province' OR location_type = 'city'") }
+
+    def self.case_for_control
+      select("locations.name, CASE
+          WHEN us_troop + us_base + us_irregular + arvn_troop + arvn_base + arvn_ranger + arvn_police
+            > nva_troop + nva_base + nva_tunnel_base + nva_guerrilla + vc_guerrilla + vc_base + vc_tunnel_base THEN 'COIN'
+          WHEN nva_base + nva_tunnel_base + nva_guerrilla
+            > us_base + us_irregular + arvn_troop + arvn_base + arvn_ranger + arvn_police + vc_guerrilla + vc_base + vc_tunnel_base THEN 'NVA'
+          ELSE 'NONE'
+          END as control").province_or_city
     end
 
     def self.airlift_eligible_sources

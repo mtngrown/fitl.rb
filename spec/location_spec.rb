@@ -23,8 +23,32 @@ module Fitl
 
       it 'deals with the case statement' do
         Location.build_from_yaml file
+
+        expected = [
+          'Quang Tri',
+          'Hue',
+          'Da Nang',
+          'Qui Nhon',
+          'Cam Ranh',
+          'Quang Tin',
+          'Kontum',
+          'Binh Dinh',
+          'Pleiku',
+          'Khanh Hoa',
+          'Phu Bon',
+          'Binh Tuy',
+          'Saigon',
+          'Quang Duc',
+          'Tay Ninh',
+          'An Loc',
+          'Can Tho',
+          'Kien Giang'
+        ]
+
         control = Location.case_for_control
-        binding.pry
+        control.each do |c|
+          expected.include? c.name
+        end
       end
 
       xit 'finds us airlift eligible source locations' do

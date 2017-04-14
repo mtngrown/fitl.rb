@@ -235,6 +235,10 @@ module Fitl
       end
     end
 
+    describe '.excess' do
+      it 'finds a list of locations with excess US Troops'
+    end
+
     describe '#excess' do
       context 'coin controlled' do
         it 'has an excess of COIN units' do
@@ -259,18 +263,22 @@ module Fitl
         expect(location.pavn_count).to eq 5
         expect(location.excess).to eq 0
       end
-    end
 
-    context 'nva controlled' do
-    end
+      context 'nva controlled' do
+        it 'finds no excess when NVA controlled'
+      end
 
-    context 'uncontrolled' do
+      context 'uncontrolled' do
+        it 'finds no excess when uncontrolled'
+      end
     end
 
     describe '#fwa_count' do
+      it 'counts fwa units in location'
     end
 
     describe '#pavn_count' do
+      it 'counts pavn units in location'
     end
 
     describe '#us_count' do

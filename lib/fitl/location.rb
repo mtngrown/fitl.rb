@@ -19,19 +19,19 @@ module Fitl
     end
 
     def self.us_count
-      'us_troop + us_base + us_irregular'
+      'us_troop + us_base + us_irregular_hidden + us_irregular_activated'
     end
 
     def self.arvn_count
-      'arvn_troop + arvn_base + arvn_ranger + arvn_police'
+      'arvn_troop + arvn_base + arvn_ranger_hidden + arvn_ranger_activated + arvn_police'
     end
 
     def self.nva_count
-      'nva_troop + nva_base + nva_tunnel_base + nva_guerrilla'
+      'nva_troop + nva_base + nva_tunnel_base + nva_guerrilla_hidden + nva_guerrilla_activated'
     end
 
     def self.vc_count
-      'vc_guerrilla + vc_base + vc_tunnel_base'
+      'vc_guerrilla_hidden + vc_guerrilla_activated + vc_base + vc_tunnel_base'
     end
 
     # Here's what the rules say in 8.8.2 AIRLIFT, page 19:
@@ -117,19 +117,19 @@ module Fitl
     end
 
     def us_count
-      us_troop + us_base + us_irregular
+      us_troop + us_base + us_irregular_hidden + us_irregular_activated
     end
 
     def vc_count
-      vc_guerrilla + vc_base + vc_tunnel_base
+      vc_guerrilla_hidden + vc_guerrilla_activated + vc_base + vc_tunnel_base
     end
 
     def nva_count
-      nva_troop + nva_guerrilla + nva_base + nva_tunnel_base
+      nva_troop + nva_guerrilla_hidden + nva_guerrilla_activated + nva_base + nva_tunnel_base
     end
 
     def arvn_count
-      arvn_troop + arvn_ranger + arvn_base + arvn_police
+      arvn_troop + arvn_ranger_hidden + arvn_ranger_activated + arvn_base + arvn_police
     end
   end
 end

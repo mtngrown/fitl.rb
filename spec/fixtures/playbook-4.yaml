@@ -5,7 +5,7 @@
   country: North Vietnam
   terrain:
   control: nva
-  nva_guerrilla: 1
+  nva_guerrilla_hidden: 1
   nva_base: 1
   nva_troop: 9
 
@@ -16,7 +16,7 @@
   country: Laos
   terrain: jungle
   control: nva
-  nva_guerrilla: 1
+  nva_guerrilla_hidden: 1
   nva_base: 1
   nva_troop: 9
 
@@ -29,7 +29,7 @@
   support: passive
   us_base: 1
   us_troop: 4
-  us_irregular: 1
+  us_irregular_hidden: 1
   arvn_troop: 3
   nva_base: 1
   nva_troop: 3
@@ -42,7 +42,7 @@
   terrain: highland
   opposition: active
   vc_base: 1
-  vc_guerrilla: 2
+  vc_guerrilla_hidden: 2
 
 - name: Hue
   population: 2
@@ -109,7 +109,7 @@
   support: passive
   us_base: 1
   us_troop: 1
-  us_irregular: 1
+  us_irregular_hidden: 1
 
 - name: Binh Dinh
   population: 2
@@ -120,10 +120,10 @@
   control: coin
   support: passive
   us_troop: 2
-  us_irregular: 1
+  us_irregular_hidden: 1
   arvn_police: 1
   vc_base: 1
-  vc_guerrilla: 2
+  vc_guerrilla_hidden: 2
 
 - name: Pleiku
   population: 1
@@ -134,10 +134,10 @@
   control: coin
   support: passive
   us_troop: 2
-  us_irregular: 1
+  us_irregular_hidden: 1
   arvn_police: 1
   vc_base: 1
-  vc_guerrilla: 2
+  vc_guerrilla_hidden: 2
 
 
 - name: Khanh Hoa
@@ -149,10 +149,10 @@
   control: coin
   support: passive
   us_troop: 2
-  us_irregular: 1
+  us_irregular_hidden: 1
   arvn_police: 1
   vc_base: 1
-  vc_guerrilla: 2
+  vc_guerrilla_hidden: 2
 
 - name: Phu Bon
   population: 1
@@ -165,7 +165,7 @@
   us_troop: 3
   arvn_troop: 2
   arvn_police: 2
-  vc_guerrilla: 2
+  vc_guerrilla_hidden: 2
 
 - name: Binh Tuy
   population: 1
@@ -178,7 +178,7 @@
   us_troop: 2
   arvn_troop: 3
   arvn_police: 1
-  vc_guerrilla: 2
+  vc_guerrilla_hidden: 2
 
 - name: Saigon
   population: 6
@@ -190,7 +190,7 @@
   us_base: 1
   us_troop: 2
   arvn_troop: 1
-  arvn_ranger: 1
+  arvn_ranger_hidden: 1
   arvn_police: 4
 
 - name: Quang Duc
@@ -202,7 +202,7 @@
   control: coin
   arvn_troop: 2
   arvn_police: 1
-  vc_guerrilla: 1
+  vc_guerrilla_hidden: 1
 
 - name: Phuoc Long
   population: 0
@@ -211,8 +211,8 @@
   country: South Vietname
   terrain: jungle
   vc_base: 1
-  vc_guerrilla: 2
-  nva_guerrilla: 1
+  vc_guerrilla_hidden: 2
+  nva_guerrilla_hidden: 1
 
 - name: Tay Ninh
   population: 2
@@ -225,10 +225,10 @@
   us_base: 1
   us_troop: 3
   arvn_troop: 2
-  arvn_ranger: 1
+  arvn_ranger_hidden: 1
   vc_tunnel_base: 1
-  vc_guerrilla: 3
-  nva_guerrilla: 2
+  vc_guerrilla_hidden: 3
+  nva_guerrilla_hidden: 2
 
 - name: An Loc
   population: 1
@@ -249,7 +249,7 @@
   control: coin
   support: passive
   us_troop: 3
-  us_irregular: 1
+  us_irregular_hidden: 1
   arvn_troop: 2
   arvn_police: 1
 
@@ -261,7 +261,7 @@
   terrain: lowland
   opposition: passive
   arvn_police: 1
-  vc_guerrilla: 1
+  vc_guerrilla_hidden: 1
 
 - name: Kien Hoa
   population: 2
@@ -271,7 +271,7 @@
   terrain: lowland
   opposition: passive
   arvn_police: 1
-  vc_guerrilla: 1
+  vc_guerrilla_hidden: 1
 
 - name: Ba Xuyen
   population: 1
@@ -281,7 +281,7 @@
   terrain: lowland
   opposition: passive
   arvn_police: 1
-  vc_guerrilla: 1
+  vc_guerrilla_hidden: 1
 
 - name: Kien Giang
   population: 2
@@ -293,8 +293,8 @@
   opposition: active
   arvn_base: 1
   arvn_troop: 2
-  arvn_ranger: 1
-  vc_guerrilla: 1
+  arvn_ranger_hidden: 1
+  vc_guerrilla_hidden: 1
 
 - name: Southern Laos
   population: 0
@@ -304,7 +304,7 @@
   terrain: jungle
   control: nva
   nva_base: 1
-  nva_guerrilla: 2
+  nva_guerrilla_hidden: 2
 
 - name: Northeast Cambodia
   population: 0
@@ -314,7 +314,7 @@
   terrain: jungle
   control: nva
   nva_base: 1
-  nva_guerrilla: 2
+  nva_guerrilla_hidden: 2
 
 - name: The Fishhook
   population: 0
@@ -324,7 +324,7 @@
   terrain: jungle
   control: nva
   nva_base: 1
-  nva_guerrilla: 2
+  nva_guerrilla_hidden: 2
 
 - name: The Parrot's Beak
   population: 6
@@ -333,7 +333,7 @@
   terrain: jungle
   control: nva
   nva_base: 1
-  nva_guerrilla: 2
+  nva_guerrilla_hidden: 2
 
 - name: Sihnoukville
   population: 0
@@ -343,7 +343,7 @@
   terrain: jungle
   control: nva
   nva_base: 1
-  nva_guerrilla: 2
+  nva_guerrilla_hidden: 2
 
 - name: Mekong
   population:

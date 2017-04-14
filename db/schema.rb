@@ -22,20 +22,24 @@ ActiveRecord::Schema.define(version: 20170413024854) do
     t.string  "control"
     t.string  "support"
     t.string  "opposition"
-    t.integer "us_troop",        default: 0
-    t.integer "us_irregular",    default: 0
-    t.integer "arvn_troop",      default: 0
-    t.integer "arvn_ranger",     default: 0
-    t.integer "arvn_police",     default: 0
-    t.integer "nva_troop",       default: 0
-    t.integer "nva_guerrilla",   default: 0
-    t.integer "vc_guerrilla",    default: 0
-    t.integer "us_base",         default: 0
-    t.integer "arvn_base",       default: 0
-    t.integer "vc_base",         default: 0
-    t.integer "vc_tunnel_base",  default: 0
-    t.integer "nva_base",        default: 0
-    t.integer "nva_tunnel_base", default: 0
+    t.integer "us_troop",                default: 0
+    t.integer "arvn_troop",              default: 0
+    t.integer "arvn_police",             default: 0
+    t.integer "nva_troop",               default: 0
+    t.integer "us_base",                 default: 0
+    t.integer "arvn_base",               default: 0
+    t.integer "vc_base",                 default: 0
+    t.integer "vc_tunnel_base",          default: 0
+    t.integer "nva_base",                default: 0
+    t.integer "nva_tunnel_base",         default: 0
+    t.integer "us_irregular_hidden",     default: 0
+    t.integer "us_irregular_activated",  default: 0
+    t.integer "arvn_ranger_hidden",      default: 0
+    t.integer "arvn_ranger_activated",   default: 0
+    t.integer "nva_guerrilla_hidden",    default: 0
+    t.integer "nva_guerrilla_activated", default: 0
+    t.integer "vc_guerrilla_hidden",     default: 0
+    t.integer "vc_guerrilla_activated",  default: 0
   end
 
 end

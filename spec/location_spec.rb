@@ -90,26 +90,151 @@ module Fitl
         end
       end
 
-      xit 'finds us airlift eligible source locations' do
-        Location.build_from_yaml file
-        expect(Location.airlift_eligible_sources.size).to eq 15
+      describe '.us_troops_in_south_vietnam' do
+        context 'default yaml configuration' do
+          it 'finds some troops in South Vietnam' do
+            Location.build_from_yaml file
+            expect(Location.us_troops_in_south_vietnam.size).to eq 15
+          end
+        end
 
-        vc_locations = Location.vc_per_location
-        expect(vc_locations.size).to eq 13
+        context 'custom' do
+          subject(:troops) { Location.us_troops_in_south_vietnam }
 
-        us_locations = Location.us_per_location
-        expect(us_locations.size).to eq 15
+          it 'finds no US Troops in South Vietnam' do
+            expect(troops.size).to eq 0
+          end
 
-        arvn_locations = Location.arvn_per_location
-        expect(arvn_locations.size).to eq 20
-
-        nva_locations = Location.nva_per_location
-        expect(nva_locations.size).to eq 10
-
-        fwa_totals = Location.fwa_totals
-
-        # expect(Location.nlf_total).to eq 14
+          it 'finds some US Troops in South Vietnam' do
+            create :location, name: 'Saigon', us_troop: 3
+            expect(troops.size).to eq 1
+          end
+        end
       end
+    end
+
+    describe '#coin_control?' do
+      context 'true' do
+        it 'correctly determines COIN control' do
+          location = create :location,
+            us_troop: 3, us_base: 1, us_irregular: 1,
+            arvn_troop: 1, arvn_police: 3,
+            nva_troop: 2,
+            vc_base: 1, vc_guerrilla: 2
+          expect(location.coin_control?).to be true
+        end
+      end
+
+      context 'false' do
+        context 'nva controlled' do
+          it 'correctly determines COIN does not control' do
+            location = create :location,
+              us_troop: 1, us_base: 1, us_irregular: 1,
+              arvn_troop: 1, arvn_police: 3,
+              nva_troop: 8,
+              vc_base: 1, vc_guerrilla: 2
+            expect(location.coin_control?).to be false
+          end
+        end
+
+        context 'uncontrolled with only VC units present' do
+          it 'correctly determines location is not under NVA or COIN control' do
+            location = create :location,
+              vc_base: 1, vc_guerrilla: 2
+            expect(location.coin_control?).to be false
+          end
+        end
+      end
+    end
+
+    describe '#nva_control?' do
+      context 'true' do
+        it 'correctly determines NVA control' do
+          location = create :location,
+            us_troop: 1, us_base: 1, us_irregular: 1,
+            arvn_troop: 1, arvn_police: 2,
+            nva_troop: 8, nva_base: 1, nva_guerrilla: 3,
+            vc_base: 1, vc_guerrilla: 2
+          expect(location.nva_control?).to be true
+        end
+      end
+
+      context 'false' do
+        context 'coin_controlled' do
+        it 'correctly determines NVA does not control' do
+          location = create :location,
+            us_troop: 3, us_base: 1, us_irregular: 1,
+            arvn_troop: 1, arvn_police: 3,
+            nva_troop: 2,
+            vc_base: 1, vc_guerrilla: 2
+          expect(location.nva_control?).to be false
+        end
+        end
+
+        context 'uncontrolled with equal numbers of FWA and PAVN' do
+          it 'correctly determines location is not under NVA or COIN control' do
+            location = create :location,
+              nva_base: 0, nva_troop: 3,
+              vc_base: 1, vc_guerrilla: 2
+            expect(location.coin_control?).to be false
+            expect(location.nva_control?).to be false
+          end
+        end
+      end
+    end
+
+    describe '#us_troops_available' do
+    end
+
+    describe '#excess' do
+      context 'coin controlled' do
+        it 'has an excess of US Troops' do
+          location = create :location,
+            us_troop: 3, us_base: 1, us_irregular: 1,
+            arvn_troop: 1, arvn_police: 3,
+            nva_troop: 2,
+            vc_base: 1, vc_guerrilla: 2
+          expect(location.fwa_count).to eq 9
+          expect(location.pavn_count).to eq 5
+          expect(location.excess).to eq 3
+        end
+      end
+
+      context 'nva controlled' do
+      end
+
+      context 'uncontrolled' do
+      end
+    end
+
+    describe '#fwa_count' do
+    end
+
+    describe '#pavn_count' do
+    end
+
+    describe '#us_count' do
+      subject(:troops) { create :location, us_troop: 3, us_base: 1, us_irregular: 2 }
+
+      it { expect(troops.us_count).to eq 6 }
+    end
+
+    describe '#vc_count' do
+      subject(:troops) { create :location, vc_guerrilla: 3, vc_base: 1, vc_tunnel_base: 1 }
+
+      it { expect(troops.vc_count).to eq 5 }
+    end
+
+    describe '#nva_count' do
+      subject(:troops) { create :location, nva_troop: 9, nva_guerrilla: 1, nva_base: 1, nva_tunnel_base: 0 }
+
+      it { expect(troops.nva_count).to eq 11 }
+    end
+
+    describe '#arvn_count' do
+      subject(:troops) { create :location, arvn_troop: 3, arvn_base: 1, arvn_ranger: 2, arvn_police: 3 }
+
+      it { expect(troops.arvn_count).to eq 9 }
     end
   end
 end

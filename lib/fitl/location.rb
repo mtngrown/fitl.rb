@@ -52,45 +52,18 @@ module Fitl
     # or Cambodia, or 0 spaces in Laos or Cambodia. The conditions do not speak
     # to having US Bases or US Irregulars in Laos or Cambodia.
 
-    scope :us_troops_in_cambodia_or_laos, -> {
-      # where("us_troops > 0 AND country = 'Cambodia'")
-      us_troops_present.laos_or_cambodia
-    }
+    # Some initial scopes to get started.
+    scope :us_troops_in_cambodia_or_laos, -> { us_troops_present.in_laos_or_cambodia }
+    scope :us_troops_in_south_vietnam, -> { us_troops_present.in_south_vietnam }
 
     scope :us_troops_present, -> { where('us_troop > 0') }
-    scope :laos_or_cambodia, -> { where("country = 'Cambodia' OR country = 'Laos'") }
+    scope :in_laos_or_cambodia, -> { where("country = 'Cambodia' OR country = 'Laos'") }
+    scope :in_south_vietnam, -> { where(country: 'South Vietnam') }
 
-    scope :vc_per_location, -> {
-      where('vc_guerrilla + vc_base + vc_tunnel_base > 0')
-    }
-
-    scope :nva_per_location, -> {
-      where('nva_troop + nva_guerrilla + nva_base + nva_tunnel_base > 0')
-    }
-
-    scope :arvn_per_location, -> {
-      #where('arvn_troop + arvn_ranger + arvn_base + arvn_police > 0')
-      select('arvn_troop + arvn_ranger + arvn_base + arvn_police as arvn_total')
-    }
-
-    scope :us_per_location, -> {
-      select('us_troop + us_irregular + us_base as us_total')
-    }
-
-    scope :fwa_totals, -> {
-      arvn_per_location.us_per_location.where('us_total + arvn_total > 0')
-    }
-
-    scope :nlf_total, -> {
-      all.where("nva_troop + nva_guerrilla + nva_base + vc_guerrilla + vc_base + vc_tunnel_base > \
-                us_troop + us_base + us_irregular + arvn_base + arvn_troop + arvn_ranger")
-    }
-
-
-
-    def self.airlift_eligible_sources
-      _locations = Location.where('us_troop > 0')
-    end
+    # Air Lift allows drawing US Troops, then US Irregulars and ARVN Rangers
+    # from up to 2 spaces, for deployment into 2 spaces.
+    # For now, let's assume there are no spaces in Laos or Cambodia to draw from,
+    # which is convenient as this is the situation Playbook Example #4.
 
     # TODO: think about using in-memory sqlite3 for handling queries on this data
     # kludgy
@@ -102,6 +75,61 @@ module Fitl
         locations_hash[location['name']] = Location.create(location)
       end
       locations_hash
+    end
+
+    # I do not yet know how to do these computations directly in the database, in
+    # part because I'm not sure exactly what the computations are. Once I get the
+    # air lift available implemented correctly, then it should be possible to move
+    # most of it into the database.
+
+    def us_troops_available
+      # return 0 if us_troop == 0 # redundant
+      available = us_troop < excess ? us_troop : excess
+      update_attribute(:us_troop, us_troop - available)
+      available
+    end
+
+    def excess
+      excess = fwa_count - pavn_count - 1
+      @excess ||= excess > 0 ? excess : 0
+    end
+
+    # TODO: test
+    def fwa_count
+      us_count + arvn_count
+    end
+
+    # TODO: test
+    def pavn_count
+      nva_count + vc_count
+    end
+
+    def coin_control?
+      @coin_control ||= us_count + arvn_count > nva_count + vc_count
+    end
+
+    def nva_control?
+      @nva_control ||= nva_count > us_count + arvn_count + vc_count
+    end
+
+    def uncontrolled?
+      @uncontrolled ||= !nva_control? && !coin_control?
+    end
+
+    def us_count
+      us_troop + us_base + us_irregular
+    end
+
+    def vc_count
+      vc_guerrilla + vc_base + vc_tunnel_base
+    end
+
+    def nva_count
+      nva_troop + nva_guerrilla + nva_base + nva_tunnel_base
+    end
+
+    def arvn_count
+      arvn_troop + arvn_ranger + arvn_base + arvn_police
     end
   end
 end

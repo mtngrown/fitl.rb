@@ -117,10 +117,10 @@ module Fitl
       context 'true' do
         it 'correctly determines COIN control' do
           location = create :location,
-                            us_troop: 3, us_base: 1, us_irregular: 1,
+                            us_troop: 3, us_base: 1, us_irregular_hidden: 1,
                             arvn_troop: 1, arvn_police: 3,
                             nva_troop: 2,
-                            vc_base: 1, vc_guerrilla: 2
+                            vc_base: 1, vc_guerrilla_hidden: 3
           expect(location.coin_control?).to be true
         end
       end
@@ -129,10 +129,10 @@ module Fitl
         context 'nva controlled' do
           it 'correctly determines COIN does not control' do
             location = create :location,
-                              us_troop: 1, us_base: 1, us_irregular: 1,
+                              us_troop: 1, us_base: 1, us_irregular_hidden: 1,
                               arvn_troop: 1, arvn_police: 3,
                               nva_troop: 8,
-                              vc_base: 1, vc_guerrilla: 2
+                              vc_base: 1, vc_guerrilla_hidden: 2
             expect(location.coin_control?).to be false
           end
         end
@@ -140,7 +140,7 @@ module Fitl
         context 'uncontrolled with only VC units present' do
           it 'correctly determines location is not under NVA or COIN control' do
             location = create :location,
-                              vc_base: 1, vc_guerrilla: 2
+                              vc_base: 1, vc_guerrilla_hidden: 2
             expect(location.coin_control?).to be false
           end
         end
@@ -151,10 +151,10 @@ module Fitl
       context 'true' do
         it 'correctly determines NVA control' do
           location = create :location,
-                            us_troop: 1, us_base: 1, us_irregular: 1,
+                            us_troop: 1, us_base: 1, us_irregular_hidden: 1,
                             arvn_troop: 1, arvn_police: 2,
-                            nva_troop: 8, nva_base: 1, nva_guerrilla: 3,
-                            vc_base: 1, vc_guerrilla: 2
+                            nva_troop: 8, nva_base: 1, nva_guerrilla_hidden: 3,
+                            vc_base: 1, vc_guerrilla_hidden: 2
           expect(location.nva_control?).to be true
         end
       end
@@ -163,10 +163,10 @@ module Fitl
         context 'coin_controlled' do
           it 'correctly determines NVA does not control' do
             location = create :location,
-                              us_troop: 3, us_base: 1, us_irregular: 1,
+                              us_troop: 3, us_base: 1, us_irregular_hidden: 1,
                               arvn_troop: 1, arvn_police: 3,
                               nva_troop: 2,
-                              vc_base: 1, vc_guerrilla: 2
+                              vc_base: 1, vc_guerrilla_hidden: 2
             expect(location.nva_control?).to be false
           end
         end
@@ -175,7 +175,7 @@ module Fitl
           it 'correctly determines location is not under NVA or COIN control' do
             location = create :location,
                               nva_base: 0, nva_troop: 3,
-                              vc_base: 1, vc_guerrilla: 2
+                              vc_base: 1, vc_guerrilla_hidden: 2
             expect(location.coin_control?).to be false
             expect(location.nva_control?).to be false
           end
@@ -187,20 +187,20 @@ module Fitl
       context 'COIN control' do
         it 'has an excess of COIN units' do
           location = create :location,
-                            us_troop: 3, us_base: 1, us_irregular: 1,
+                            us_troop: 3, us_base: 1, us_irregular_hidden: 1,
                             arvn_troop: 1, arvn_police: 3,
                             nva_troop: 2,
-                            vc_base: 1, vc_guerrilla: 2
+                            vc_base: 1, vc_guerrilla_hidden: 2
           expect(location.excess).to eq 3
           expect(location.us_troops_available).to eq 3
         end
 
         it 'does not have an excess of COIN units' do
           location = create :location,
-                            us_troop: 0, us_base: 1, us_irregular: 1,
+                            us_troop: 0, us_base: 1, us_irregular_hidden: 1,
                             arvn_troop: 1, arvn_police: 3,
                             nva_troop: 2,
-                            vc_base: 1, vc_guerrilla: 2
+                            vc_base: 1, vc_guerrilla_hidden: 2
           expect(location.excess).to eq 0
           expect(location.us_troops_available).to eq 0
         end
@@ -243,10 +243,10 @@ module Fitl
       context 'coin controlled' do
         it 'has an excess of COIN units' do
           location = create :location,
-                            us_troop: 3, us_base: 1, us_irregular: 1,
+                            us_troop: 3, us_base: 1, us_irregular_hidden: 1,
                             arvn_troop: 1, arvn_police: 3,
                             nva_troop: 2,
-                            vc_base: 1, vc_guerrilla: 2
+                            vc_base: 1, vc_guerrilla_hidden: 2
           expect(location.fwa_count).to eq 9
           expect(location.pavn_count).to eq 5
           expect(location.excess).to eq 3
@@ -255,10 +255,10 @@ module Fitl
 
       it 'does not have an excess of COIN units' do
         location = create :location,
-                          us_troop: 0, us_base: 1, us_irregular: 1,
+                          us_troop: 0, us_base: 1, us_irregular_hidden: 1,
                           arvn_troop: 1, arvn_police: 3,
                           nva_troop: 2,
-                          vc_base: 1, vc_guerrilla: 2
+                          vc_base: 1, vc_guerrilla_hidden: 2
         expect(location.fwa_count).to eq 6
         expect(location.pavn_count).to eq 5
         expect(location.excess).to eq 0
@@ -282,25 +282,25 @@ module Fitl
     end
 
     describe '#us_count' do
-      subject(:troops) { create :location, us_troop: 3, us_base: 1, us_irregular: 2 }
+      subject(:troops) { create :location, us_troop: 3, us_base: 1, us_irregular_hidden: 2 }
 
       it { expect(troops.us_count).to eq 6 }
     end
 
     describe '#vc_count' do
-      subject(:troops) { create :location, vc_guerrilla: 3, vc_base: 1, vc_tunnel_base: 1 }
+      subject(:troops) { create :location, vc_guerrilla_hidden: 3, vc_base: 1, vc_tunnel_base: 1 }
 
       it { expect(troops.vc_count).to eq 5 }
     end
 
     describe '#nva_count' do
-      subject(:troops) { create :location, nva_troop: 9, nva_guerrilla: 1, nva_base: 1, nva_tunnel_base: 0 }
+      subject(:troops) { create :location, nva_troop: 9, nva_guerrilla_hidden: 1, nva_base: 1, nva_tunnel_base: 0 }
 
       it { expect(troops.nva_count).to eq 11 }
     end
 
     describe '#arvn_count' do
-      subject(:troops) { create :location, arvn_troop: 3, arvn_base: 1, arvn_ranger: 2, arvn_police: 3 }
+      subject(:troops) { create :location, arvn_troop: 3, arvn_base: 1, arvn_ranger_hidden: 2, arvn_police: 3 }
 
       it { expect(troops.arvn_count).to eq 9 }
     end

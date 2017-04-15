@@ -17,6 +17,14 @@ AllCops:
 Metrics/LineLength:
   Max: 96
 
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/ModuleLength:
+  Exclude:
+    - 'spec/**/*'
+
 # Offense count: 2
 Style/Documentation:
   Exclude:

@@ -77,6 +77,12 @@ module Fitl
       locations_hash
     end
 
+    def self.excess
+      all.select do |location|
+        location.has_excess?
+      end
+    end
+
     # I do not yet know how to do these computations directly in the database, in
     # part because I'm not sure exactly what the computations are. Once I get the
     # air lift available implemented correctly, then it should be possible to move
@@ -87,6 +93,10 @@ module Fitl
       available = us_troop < excess ? us_troop : excess
       update_attribute(:us_troop, us_troop - available)
       available
+    end
+
+    def has_excess?
+      excess > 0
     end
 
     def excess

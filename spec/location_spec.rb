@@ -6,9 +6,6 @@ module Fitl
   RSpec.describe Location do
     let(:file) { File.join(__dir__, 'fixtures/playbook-4.yaml') }
 
-    # subject(:location) { Location.new }
-    # it { expect(location).not_to be nil }
-
     context 'verifying yaml fixtures' do
       describe '.build_from_yaml' do
         it 'builds from a yaml file' do
@@ -100,6 +97,55 @@ module Fitl
             expect(actual).to eq expected
           end
         end
+      end
+    end
+
+    describe '#coin_available_after_sweep_needs' do
+      before { Location.build_from_yaml file }
+
+      it 'finds 1 excess US troops in Hue' do
+        hue = Location.where(name: 'Hue').first
+        expected = { us_troop: 1 }
+        expect(hue.coin_control_excess).to eq 2
+        expect(hue.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds 3 excess US Troop and 1 Irregular in Can Tho' do
+        can_tho = Location.where(name: 'Can Tho').first
+        expected = {
+          us_troop: 3,
+          us_irregular_hidden: 1,
+          us_irregular_activated: 0
+        }
+        expect(can_tho.coin_control_excess).to eq 6
+        expect(can_tho.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds 0 available from Pleiku' do
+        pleiku = Location.where(name: 'Pleiku').first
+        expected = {}
+        expect(pleiku.coin_control_excess).to eq 0
+        expect(pleiku.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds 1 US Troop and 1 US Irregular available in Kontum' do
+        kontum = Location.where(name: 'Kontum').first
+        expected = {
+          us_troop: 1,
+          us_irregular_hidden: 1,
+          us_irregular_activated: 0
+        }
+        expect(kontum.coin_control_excess).to eq 2
+        expect(kontum.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds 1 US Troop available in Phu Bon' do
+        phu_bon = Location.where(name: 'Phu Bon').first
+        expected = {
+          us_troop: 1
+        }
+        expect(phu_bon.coin_control_excess).to eq 4
+        expect(phu_bon.coin_available_after_sweep_needs).to eq expected
       end
     end
 

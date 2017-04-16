@@ -109,11 +109,46 @@ module Fitl
       end
     end
 
+    # Suppose we want to determine if and how many troops are available
+    # when a location is operational, where we also need to maintain COIN
+    # control. I think this method will need to return a hash of the available
+    # troop and irregular counts. The way to do this is break it down into
+    # cases, add a spec for each case, then kludge the implementation
+    # together here. I can make it pretty once it's working, then move the
+    # computations into the database once it's cleaned up.
+    def coin_available_after_sweep_needs
+      # excess = coin_control_excess
+
+      available = {}
+
+      if us_troop <= coin_control_excess
+        available[:us_troop] = us_troop - hidden_guerrilla_count
+      end
+
+      if us_irregular_count > 0
+        if coin_control_excess - us_troop > 0
+          available[:us_irregular_hidden] = us_irregular_hidden
+          available[:us_irregular_activated] = us_irregular_activated
+        end
+      end
+
+      available
+    end
+
+    def us_irregular_count
+      us_irregular_hidden + us_irregular_activated
+    end
+
+    def hidden_guerrilla_count
+      nva_guerrilla_hidden + vc_guerrilla_hidden
+    end
+
     # I do not yet know how to do these computations directly in the database, in
     # part because I'm not sure exactly what the computations are. Once I get the
     # air lift available implemented correctly, then it should be possible to move
     # most of it into the database.
 
+    # TODO: this should be COIN troops, not US troops.
     def us_troops_available
       us_troop < coin_control_excess ? us_troop : coin_control_excess
     end

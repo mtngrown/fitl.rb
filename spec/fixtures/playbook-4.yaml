@@ -32,7 +32,7 @@
   us_irregular_hidden: 1
   arvn_troop: 3
   nva_base: 1
-  nva_troop: 3
+  nva_guerrilla_hidden: 3
 
 - name: Quang Nam
   population: 1
@@ -192,6 +192,8 @@
   arvn_troop: 1
   arvn_ranger_hidden: 1
   arvn_police: 4
+  vc_base: 1
+  vc_guerrilla_hidden: 1
 
 - name: Quang Duc
   population: 1

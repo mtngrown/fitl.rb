@@ -121,8 +121,16 @@ module Fitl
 
       available = {}
 
+      # Make the assumption that if hidden irregulars exist in Locations
+      # with hidden pavn, the hidden irregulars will be activated to sweep:
+      modified_hidden_guerrilla_count = hidden_guerrilla_count
+      if us_irregular_count > 0 && hidden_guerrilla_count > 0
+        modified_hidden_guerrilla_count = hidden_guerrilla_count - us_irregular_count
+      end
+
       if us_troop <= coin_control_excess
-        available[:us_troop] = us_troop - hidden_guerrilla_count
+        available[:us_troop] = us_troop - modified_hidden_guerrilla_count
+        # available[:us_troop] = (us_troop + us_irregular_count) - hidden_guerrilla_count
       end
 
       if us_irregular_count > 0

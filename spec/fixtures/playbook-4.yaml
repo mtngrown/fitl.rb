@@ -308,7 +308,7 @@
   nva_base: 1
   nva_guerrilla_hidden: 2
 
-- name: Northeast Cambodia
+- name: NE Cambodia
   population: 0
   value:
   location_type: province
@@ -318,7 +318,7 @@
   nva_base: 1
   nva_guerrilla_hidden: 2
 
-- name: The Fishhook
+- name: The Fish Hook
   population: 0
   value:
   location_type: province
@@ -337,7 +337,7 @@
   nva_base: 1
   nva_guerrilla_hidden: 2
 
-- name: Sihnoukville
+- name: Sihanoukville
   population: 0
   value:
   location_type: province

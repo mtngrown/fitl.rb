@@ -128,9 +128,8 @@ module Fitl
         modified_hidden_guerrilla_count = hidden_guerrilla_count - us_irregular_count
       end
 
-      if us_troop <= coin_control_excess
+      if us_troop > 0 && us_troop <= coin_control_excess
         available[:us_troop] = us_troop - modified_hidden_guerrilla_count
-        # available[:us_troop] = (us_troop + us_irregular_count) - hidden_guerrilla_count
       end
 
       if us_irregular_count > 0

@@ -49,10 +49,10 @@ module Fitl
             'North Vietnam',
             'Central Laos',
             'Southern Laos',
-            'Northeast Cambodia',
-            'The Fishhook',
+            'NE Cambodia',
+            'The Fish Hook',
             "The Parrot's Beak",
-            'Sihnoukville'
+            'Sihanoukville'
           ]
           nva = control.select { |e| e.control == 'NVA' }.map(&:name)
           expect(nva).to eq expected
@@ -90,10 +90,10 @@ module Fitl
               'Ba Xuyen',
               'Kien Giang',
               'Southern Laos',
-              'Northeast Cambodia',
-              'The Fishhook',
+              'NE Cambodia',
+              'The Fish Hook',
               "The Parrot's Beak",
-              'Sihnoukville'
+              'Sihanoukville'
             ]
             actual = Location.hidden_guerrillas.map(&:name)
             expect(actual).to eq expected
@@ -105,60 +105,31 @@ module Fitl
     describe '#coin_available_after_sweep_needs' do
       before { Location.build_from_yaml file }
 
+      ['North Vietnam', 'Central Laos'].each do |l|
+        it "finds 0 available US Troop in #{l}" do
+          location = Location.where(name: l).first
+          expected = {}
+          expect(location.coin_control_excess).to eq 0
+          expect(location.coin_available_after_sweep_needs).to eq expected
+        end
+      end
+
+      it 'finds 2 available US Troop in Quang Tri' do
+        location = Location.where(name: 'Quang Tri').first
+        expected = {
+          us_troop: 2
+        }
+        expect(location.coin_control_excess).to eq 4
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds 0 available US Troop in Quang Nam'
+
       ['Hue', 'Qui Nhon', 'Da Nang', 'Cam Ranh'].each do |l|
         it "finds 0 available US Troop in #{l}" do
           location = Location.where(name: l).first
           expected = { us_troop: 1 }
           expect(location.coin_control_excess).to eq 2
-          expect(location.coin_available_after_sweep_needs).to eq expected
-        end
-      end
-
-      it 'finds 3 available US Troop and 1 Irregular in Can Tho' do
-        can_tho = Location.where(name: 'Can Tho').first
-        expected = {
-          us_troop: 3,
-          us_irregular_hidden: 1,
-          us_irregular_activated: 0
-        }
-        expect(can_tho.coin_control_excess).to eq 6
-        expect(can_tho.coin_available_after_sweep_needs).to eq expected
-      end
-
-      ['Pleiku', 'Binh Dinh', 'Khanh Hoa'].each do |l|
-        it "finds 0 available from #{l}" do
-          location = Location.where(name: l).first
-          expected = {}
-          expect(location.coin_control_excess).to eq 0
-          expect(location.coin_available_after_sweep_needs).to eq expected
-        end
-      end
-
-      it 'finds 1 available US Troop and 1 US Irregular in Kontum' do
-        kontum = Location.where(name: 'Kontum').first
-        expected = {
-          us_troop: 1,
-          us_irregular_hidden: 1,
-          us_irregular_activated: 0
-        }
-        expect(kontum.coin_control_excess).to eq 2
-        expect(kontum.coin_available_after_sweep_needs).to eq expected
-      end
-
-      it 'finds 1 available US Troop in Phu Bon' do
-        phu_bon = Location.where(name: 'Phu Bon').first
-        expected = {
-          us_troop: 1
-        }
-        expect(phu_bon.coin_control_excess).to eq 4
-        expect(phu_bon.coin_available_after_sweep_needs).to eq expected
-      end
-
-      ['Tay Ninh'].each do |l|
-        it "finds 0 available from #{l}" do
-          location = Location.where(name: l).first
-          expected = {}
-          expect(location.coin_control_excess).to eq 0
           expect(location.coin_available_after_sweep_needs).to eq expected
         end
       end
@@ -172,14 +143,36 @@ module Fitl
         expect(location.coin_available_after_sweep_needs).to eq expected
       end
 
-      it 'finds 2 available US Troop in Quang Tri' do
-        location = Location.where(name: 'Quang Tri').first
+      it 'finds 1 available US Troop and 1 US Irregular in Kontum' do
+        kontum = Location.where(name: 'Kontum').first
         expected = {
-          us_troop: 2
+          us_troop: 1,
+          us_irregular_hidden: 1,
+          us_irregular_activated: 0
         }
-        expect(location.coin_control_excess).to eq 4
-        expect(location.coin_available_after_sweep_needs).to eq expected
+        expect(kontum.coin_control_excess).to eq 2
+        expect(kontum.coin_available_after_sweep_needs).to eq expected
       end
+
+      ['Pleiku', 'Binh Dinh', 'Khanh Hoa'].each do |l|
+        it "finds 0 available from #{l}" do
+          location = Location.where(name: l).first
+          expected = {}
+          expect(location.coin_control_excess).to eq 0
+          expect(location.coin_available_after_sweep_needs).to eq expected
+        end
+      end
+
+      it 'finds 1 available US Troop in Phu Bon' do
+        phu_bon = Location.where(name: 'Phu Bon').first
+        expected = {
+          us_troop: 1
+        }
+        expect(phu_bon.coin_control_excess).to eq 4
+        expect(phu_bon.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds ???? available US Troop in Binh Tuy'
 
       it 'finds 1 available US Troop in Saigon' do
         location = Location.where(name: 'Saigon').first
@@ -188,6 +181,46 @@ module Fitl
         }
         expect(location.coin_control_excess).to eq 6
         expect(location.coin_available_after_sweep_needs).to eq expected
+      end
+
+      it 'finds ????? available US Troop in Quang Duc'
+      it 'finds ????? available US Troop in Phuoc Long'
+
+      ['Tay Ninh'].each do |l|
+        it "finds 0 available from #{l}" do
+          location = Location.where(name: l).first
+          expected = {}
+          expect(location.coin_control_excess).to eq 0
+          expect(location.coin_available_after_sweep_needs).to eq expected
+        end
+      end
+
+      it 'finds ????? available US Troop in An Loc'
+
+      it 'finds 3 available US Troop and 1 Irregular in Can Tho' do
+        can_tho = Location.where(name: 'Can Tho').first
+        expected = {
+          us_troop: 3,
+          us_irregular_hidden: 1,
+          us_irregular_activated: 0
+        }
+        expect(can_tho.coin_control_excess).to eq 6
+        expect(can_tho.coin_available_after_sweep_needs).to eq expected
+      end
+
+      ['Kien Phong', 'Kien Hoa', 'Ba Xuyen'].each do |l|
+        it "finds ???? available US Troop in #{l}"
+      end
+
+      it 'finds ????? available US Troop in Kien Giang'
+
+      ['Southern Laos', 'NE Cambodia', 'The Fish Hook', "The Parrot's Beak", 'Sihanoukville'].each do |l|
+        it "finds 0 US Troops available in #{l}" do
+          location = Location.where(name: l).first
+          expected = {}
+          expect(location.coin_control_excess).to eq 0
+          expect(location.coin_available_after_sweep_needs).to eq expected
+        end
       end
     end
 

@@ -117,8 +117,6 @@ module Fitl
     # together here. I can make it pretty once it's working, then move the
     # computations into the database once it's cleaned up.
     def coin_available_after_sweep_needs
-      # excess = coin_control_excess
-
       available = {}
 
       # Make the assumption that if hidden irregulars exist in Locations
@@ -128,7 +126,7 @@ module Fitl
         modified_hidden_guerrilla_count = hidden_guerrilla_count - us_irregular_count
       end
 
-      if us_troop > 0 && us_troop <= coin_control_excess
+      if us_troop > modified_hidden_guerrilla_count && us_troop <= coin_control_excess
         available[:us_troop] = us_troop - modified_hidden_guerrilla_count
       end
 
@@ -138,7 +136,6 @@ module Fitl
           available[:us_irregular_activated] = us_irregular_activated
         end
       end
-
       available
     end
 

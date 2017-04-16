@@ -123,7 +123,12 @@ module Fitl
         expect(location.coin_available_after_sweep_needs).to eq expected
       end
 
-      it 'finds 0 available US Troop in Quang Nam'
+      it 'finds 0 available US Troop in Quang Nam' do
+        location = Location.where(name: 'Quang Nam').first
+        expected = {}
+        expect(location.coin_control_excess).to eq 0
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
 
       ['Hue', 'Qui Nhon', 'Da Nang', 'Cam Ranh'].each do |l|
         it "finds 0 available US Troop in #{l}" do
@@ -155,7 +160,7 @@ module Fitl
       end
 
       ['Pleiku', 'Binh Dinh', 'Khanh Hoa'].each do |l|
-        it "finds 0 available from #{l}" do
+        it "finds 0 available US Troop in #{l}" do
           location = Location.where(name: l).first
           expected = {}
           expect(location.coin_control_excess).to eq 0
@@ -172,7 +177,13 @@ module Fitl
         expect(phu_bon.coin_available_after_sweep_needs).to eq expected
       end
 
-      it 'finds ???? available US Troop in Binh Tuy'
+      it 'finds 0 available US Troop in Binh Tuy' do
+        location = Location.where(name: 'Binh Tuy').first
+        expected = {}
+        expect(location.coin_control_excess).to eq 3
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
+
 
       it 'finds 1 available US Troop in Saigon' do
         location = Location.where(name: 'Saigon').first
@@ -183,11 +194,23 @@ module Fitl
         expect(location.coin_available_after_sweep_needs).to eq expected
       end
 
-      it 'finds ????? available US Troop in Quang Duc'
-      it 'finds ????? available US Troop in Phuoc Long'
+      it 'finds 0 available US Troop in Quang Duc' do
+        location = Location.where(name: 'Quang Duc').first
+        expected = {}
+        expect(location.coin_control_excess).to eq 1
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
+
+
+      it 'finds 0 available US Troop in Phuoc Long' do
+        location = Location.where(name: 'Phuoc Long').first
+        expected = {}
+        expect(location.coin_control_excess).to eq 0
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
 
       ['Tay Ninh'].each do |l|
-        it "finds 0 available from #{l}" do
+        it "finds 0 available US Troop in #{l}" do
           location = Location.where(name: l).first
           expected = {}
           expect(location.coin_control_excess).to eq 0
@@ -195,7 +218,12 @@ module Fitl
         end
       end
 
-      it 'finds ????? available US Troop in An Loc'
+      it 'finds 0 available US Troop in An Loc' do
+        location = Location.where(name: 'An Loc').first
+        expected = {}
+        expect(location.coin_control_excess).to eq 2
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
 
       it 'finds 3 available US Troop and 1 Irregular in Can Tho' do
         can_tho = Location.where(name: 'Can Tho').first
@@ -209,13 +237,23 @@ module Fitl
       end
 
       ['Kien Phong', 'Kien Hoa', 'Ba Xuyen'].each do |l|
-        it "finds ???? available US Troop in #{l}"
+        it "finds 0 available US Troop in #{l}" do
+          location = Location.where(name: l).first
+          expected = {}
+          expect(location.coin_control_excess).to eq 0
+          expect(location.coin_available_after_sweep_needs).to eq expected
+        end
       end
 
-      it 'finds ????? available US Troop in Kien Giang'
+      it 'finds 0 available US Troop in Kien Giang' do
+        location = Location.where(name: 'Kien Giang').first
+        expected = {}
+        expect(location.coin_control_excess).to eq 2
+        expect(location.coin_available_after_sweep_needs).to eq expected
+      end
 
       ['Southern Laos', 'NE Cambodia', 'The Fish Hook', "The Parrot's Beak", 'Sihanoukville'].each do |l|
-        it "finds 0 US Troops available in #{l}" do
+        it "finds 0 available US Troop in #{l}" do
           location = Location.where(name: l).first
           expected = {}
           expect(location.coin_control_excess).to eq 0

@@ -179,6 +179,7 @@
   arvn_troop: 3
   arvn_police: 1
   vc_guerrilla_hidden: 2
+  vc_base: 1
 
 - name: Saigon
   population: 6

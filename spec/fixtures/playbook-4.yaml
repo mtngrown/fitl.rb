@@ -32,7 +32,7 @@
   us_irregular_hidden: 1
   arvn_troop: 3
   nva_base: 1
-  nva_troop: 3
+  nva_guerrilla_hidden: 3
 
 - name: Quang Nam
   population: 1
@@ -179,6 +179,7 @@
   arvn_troop: 3
   arvn_police: 1
   vc_guerrilla_hidden: 2
+  vc_base: 1
 
 - name: Saigon
   population: 6
@@ -192,6 +193,8 @@
   arvn_troop: 1
   arvn_ranger_hidden: 1
   arvn_police: 4
+  vc_base: 1
+  vc_guerrilla_hidden: 1
 
 - name: Quang Duc
   population: 1
@@ -306,7 +309,7 @@
   nva_base: 1
   nva_guerrilla_hidden: 2
 
-- name: Northeast Cambodia
+- name: NE Cambodia
   population: 0
   value:
   location_type: province
@@ -316,7 +319,7 @@
   nva_base: 1
   nva_guerrilla_hidden: 2
 
-- name: The Fishhook
+- name: The Fish Hook
   population: 0
   value:
   location_type: province
@@ -335,7 +338,7 @@
   nva_base: 1
   nva_guerrilla_hidden: 2
 
-- name: Sihnoukville
+- name: Sihanoukville
   population: 0
   value:
   location_type: province

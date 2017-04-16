@@ -64,6 +64,8 @@ module Fitl
     # from up to 2 spaces, for deployment into 2 spaces.
     # For now, let's assume there are no spaces in Laos or Cambodia to draw from,
     # which is convenient as this is the situation Playbook Example #4.
+    # The next step is to acquire Locations which have hidden guerrillas.
+    scope :hidden_guerrillas, -> { where('nva_guerrilla_hidden > 0 OR vc_guerrilla_hidden > 0') }
 
     # TODO: think about using in-memory sqlite3 for handling queries on this data
     # kludgy
@@ -77,9 +79,33 @@ module Fitl
       locations_hash
     end
 
-    def self.excess
+    # How to determine which are eligible?
+    # First we get the excess, which is relation to COIN control.
+    # Then we check to see if there are operational needs.
+    # First crack we'll just send back the whole list...
+    #
+    # I think this is going about it the wrong way for getting started.
+    # A better way to do this is use an instance method and filter out
+    # all the locations with operational needs, starting with Sweep needs
+    # first, then generalizing the technique to support Air Lift for Assaults.
+    #
+    # One of the benefits of doing it with instance methods is being able
+    # to construct tests for each method.
+    #
+    # If it's possible to set precedence without outside context, then
+    # each Location should be "scoreable" in the sense that some index
+    # can be constructed to order the suitability for choosing a set of
+    # Locations.
+    def self.operational_needs
+      coin_control_excess.select do |e|
+        # How many hidden PAVN?
+        hidden = e.pavn_hidden_count
+      end
+    end
+
+    def self.coin_control_excess
       all.select do |location|
-        location.has_excess?
+        location.has_coin_control_excess?
       end
     end
 
@@ -89,29 +115,28 @@ module Fitl
     # most of it into the database.
 
     def us_troops_available
-      # return 0 if us_troop == 0 # redundant
-      available = us_troop < excess ? us_troop : excess
-      update_attribute(:us_troop, us_troop - available)
-      available
+      us_troop < coin_control_excess ? us_troop : coin_control_excess
     end
 
-    def has_excess?
-      excess > 0
+    def has_coin_control_excess?
+      coin_control_excess > 0
     end
 
-    def excess
+    def coin_control_excess
       excess = fwa_count - pavn_count - 1
       @excess ||= excess > 0 ? excess : 0
     end
 
-    # TODO: test
     def fwa_count
       us_count + arvn_count
     end
 
-    # TODO: test
     def pavn_count
       nva_count + vc_count
+    end
+
+    def pavn_hidden_count
+      nva_guerrilla_hidden + vc_guerrilla_hidden
     end
 
     def coin_control?

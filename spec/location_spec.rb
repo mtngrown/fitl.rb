@@ -6,109 +6,140 @@ module Fitl
   RSpec.describe Location do
     let(:file) { File.join(__dir__, 'fixtures/playbook-4.yaml') }
 
-    subject(:location) { Location.new }
+    # subject(:location) { Location.new }
+    # it { expect(location).not_to be nil }
 
-    it { expect(location).not_to be nil }
+    context 'verifying yaml fixtures' do
+      describe '.build_from_yaml' do
+        it 'builds from a yaml file' do
+          actual = Location.build_from_yaml file
+          expect(actual.size).to eq 36
 
-    describe '.build_from_yaml' do
-      it 'builds from a yaml file' do
-        actual = Location.build_from_yaml file
-        expect(actual.size).to eq 36
-
-        nva_controlled = Location.where(control: 'nva')
-        expect(nva_controlled.size).to eq 7
-        nva_bases = Location.where('nva_base > 0')
-        expect(nva_bases.size).to eq 8
-      end
-
-      it 'deals with the case statement' do
-        Location.build_from_yaml file
-        control = Location.case_for_control
-
-        expected = [
-          'Quang Tri',
-          'Hue',
-          'Da Nang',
-          'Qui Nhon',
-          'Cam Ranh',
-          'Quang Tin',
-          'Kontum',
-          'Binh Dinh',
-          'Pleiku',
-          'Khanh Hoa',
-          'Phu Bon',
-          'Binh Tuy',
-          'Saigon',
-          'Quang Duc',
-          'Tay Ninh',
-          'An Loc',
-          'Can Tho',
-          'Kien Giang'
-        ]
-        coin = control.select { |e| e.control == 'COIN' }.map(&:name)
-        expect(coin).to eq expected
-
-        expected = [
-          'North Vietnam',
-          'Central Laos',
-          'Southern Laos',
-          'Northeast Cambodia',
-          'The Fishhook',
-          "The Parrot's Beak",
-          'Sihnoukville'
-        ]
-        nva = control.select { |e| e.control == 'NVA' }.map(&:name)
-        expect(nva).to eq expected
-
-        expected = [
-          'Quang Nam',
-          'Phuoc Long',
-          'Kien Phong',
-          'Kien Hoa',
-          'Ba Xuyen'
-        ]
-        none = control.select { |e| e.control == 'NONE' }.map(&:name)
-        expect(none).to eq expected
-      end
-
-      describe '.us_troops_in_cambodia' do
-        subject(:troops) { Location.us_troops_in_cambodia_or_laos }
-
-        it 'finds no troops by default' do
-          expect(troops).to eq []
+          nva_controlled = Location.where(control: 'nva')
+          expect(nva_controlled.size).to eq 7
+          nva_bases = Location.where('nva_base > 0')
+          expect(nva_bases.size).to eq 8
         end
 
-        it 'finds some US Troops in Laos' do
-          create :laos_location, us_troop: 5
-          expect(troops.size).to eq 1
+        it 'deals with the case statement' do
+          Location.build_from_yaml file
+          control = Location.case_for_control
+
+          expected = [
+            'Quang Tri',
+            'Hue',
+            'Da Nang',
+            'Qui Nhon',
+            'Cam Ranh',
+            'Quang Tin',
+            'Kontum',
+            'Binh Dinh',
+            'Pleiku',
+            'Khanh Hoa',
+            'Phu Bon',
+            'Binh Tuy',
+            'Saigon',
+            'Quang Duc',
+            'Tay Ninh',
+            'An Loc',
+            'Can Tho',
+            'Kien Giang'
+          ]
+          coin = control.select { |e| e.control == 'COIN' }.map(&:name)
+          expect(coin).to eq expected
+
+          expected = [
+            'North Vietnam',
+            'Central Laos',
+            'Southern Laos',
+            'Northeast Cambodia',
+            'The Fishhook',
+            "The Parrot's Beak",
+            'Sihnoukville'
+          ]
+          nva = control.select { |e| e.control == 'NVA' }.map(&:name)
+          expect(nva).to eq expected
+
+          expected = [
+            'Quang Nam',
+            'Phuoc Long',
+            'Kien Phong',
+            'Kien Hoa',
+            'Ba Xuyen'
+          ]
+          none = control.select { |e| e.control == 'NONE' }.map(&:name)
+          expect(none).to eq expected
         end
 
-        it 'finds US Troops in Laos and Cambodia' do
-          create :laos_location, us_troop: 5
-          create :cambodia_location, us_troop: 2
-          expect(troops.size).to eq 2
-        end
-      end
-
-      describe '.us_troops_in_south_vietnam' do
-        context 'default yaml configuration' do
-          it 'finds some troops in South Vietnam' do
+        describe '.hidden_guerrillas' do
+          it 'deals with the case statement' do
             Location.build_from_yaml file
-            expect(Location.us_troops_in_south_vietnam.size).to eq 15
+            expected = [
+              'North Vietnam',
+              'Central Laos',
+              'Quang Nam',
+              'Binh Dinh',
+              'Pleiku',
+              'Khanh Hoa',
+              'Phu Bon',
+              'Binh Tuy',
+              'Quang Duc',
+              'Phuoc Long',
+              'Tay Ninh',
+              'Kien Phong',
+              'Kien Hoa',
+              'Ba Xuyen',
+              'Kien Giang',
+              'Southern Laos',
+              'Northeast Cambodia',
+              'The Fishhook',
+              "The Parrot's Beak",
+              'Sihnoukville'
+            ]
+            actual = Location.hidden_guerrillas.map(&:name)
+            expect(actual).to eq expected
           end
         end
+      end
+    end
 
-        context 'custom' do
-          subject(:troops) { Location.us_troops_in_south_vietnam }
+    describe '.us_troops_in_cambodia' do
+      subject(:troops) { Location.us_troops_in_cambodia_or_laos }
 
-          it 'finds no US Troops in South Vietnam' do
-            expect(troops.size).to eq 0
-          end
+      it 'finds no troops by default' do
+        expect(troops).to eq []
+      end
 
-          it 'finds some US Troops in South Vietnam' do
-            create :location, name: 'Saigon', us_troop: 3
-            expect(troops.size).to eq 1
-          end
+      it 'finds some US Troops in Laos' do
+        create :laos_location, us_troop: 5
+        expect(troops.size).to eq 1
+      end
+
+      it 'finds US Troops in Laos and Cambodia' do
+        create :laos_location, us_troop: 5
+        create :cambodia_location, us_troop: 2
+        expect(troops.size).to eq 2
+      end
+    end
+
+    describe '.us_troops_in_south_vietnam' do
+      context 'default yaml configuration' do
+        it 'finds some troops in South Vietnam' do
+          Location.build_from_yaml file
+          expect(Location.us_troops_in_south_vietnam.size).to eq 15
+        end
+      end
+
+      context 'custom' do
+        subject(:troops) { Location.us_troops_in_south_vietnam }
+
+        it 'finds no US Troops in South Vietnam' do
+          expect(troops.size).to eq 0
+        end
+
+        it 'finds some US Troops in South Vietnam' do
+          create :location, name: 'Saigon', us_troop: 3
+          expect(troops.size).to eq 1
         end
       end
     end
@@ -191,7 +222,7 @@ module Fitl
                             arvn_troop: 1, arvn_police: 3,
                             nva_troop: 2,
                             vc_base: 1, vc_guerrilla_hidden: 2
-          expect(location.excess).to eq 3
+          expect(location.coin_control_excess).to eq 3
           expect(location.us_troops_available).to eq 3
         end
 
@@ -201,7 +232,7 @@ module Fitl
                             arvn_troop: 1, arvn_police: 3,
                             nva_troop: 2,
                             vc_base: 1, vc_guerrilla_hidden: 2
-          expect(location.excess).to eq 0
+          expect(location.coin_control_excess).to eq 0
           expect(location.us_troops_available).to eq 0
         end
       end
@@ -235,7 +266,7 @@ module Fitl
       end
     end
 
-    describe '.excess' do
+    describe '.coin_control_excess' do
       it 'finds a list of locations with excess US Troops' do
         Location.build_from_yaml file
         expected = [
@@ -254,12 +285,12 @@ module Fitl
           'Can Tho',
           'Kien Giang'
         ]
-        actual = Location.excess.map(&:name)
+        actual = Location.coin_control_excess.map(&:name)
         expect(actual).to eq expected
       end
     end
 
-    describe '#excess' do
+    describe '#coin_control_excess' do
       context 'coin controlled' do
         it 'has an excess of COIN units' do
           location = build :location,
@@ -269,7 +300,7 @@ module Fitl
                            vc_base: 1, vc_guerrilla_hidden: 2
           expect(location.fwa_count).to eq 9
           expect(location.pavn_count).to eq 5
-          expect(location.excess).to eq 3
+          expect(location.coin_control_excess).to eq 3
         end
       end
 
@@ -279,7 +310,7 @@ module Fitl
                          arvn_troop: 1, arvn_police: 3,
                          nva_troop: 2,
                          vc_base: 1, vc_guerrilla_hidden: 2
-        expect(location.excess).to eq 0
+        expect(location.coin_control_excess).to eq 0
       end
 
       context 'nva controlled' do
@@ -290,7 +321,7 @@ module Fitl
                            nva_troop: 10,
                            vc_base: 1, vc_guerrilla_hidden: 2
 
-          expect(location.excess).to eq 0
+          expect(location.coin_control_excess).to eq 0
         end
       end
 
@@ -300,12 +331,12 @@ module Fitl
                            us_base: 1, us_irregular_hidden: 1,
                            vc_base: 1, vc_guerrilla_hidden: 2
 
-          expect(location.excess).to eq 0
+          expect(location.coin_control_excess).to eq 0
         end
       end
     end
 
-    context 'total faction counts' do
+    context 'faction counts' do
       let(:location) do
         build :location,
               us_troop: 0, us_base: 1, us_irregular_hidden: 1,
@@ -323,6 +354,12 @@ module Fitl
       describe '#pavn_count' do
         it 'counts pavn units in location' do
           expect(location.pavn_count).to eq 5
+        end
+      end
+
+      describe '#pavn_hidden_count' do
+        it 'counts hidden guerrillas' do
+          expect(location.pavn_hidden_count).to eq 2
         end
       end
     end

@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'activerecord', '~> 5.0'
   spec.add_runtime_dependency 'sqlite3', '~> 1.0'
+  # spec.add_runtime_dependency 'sinatra-activerecord' # see linebacker
 
   spec.add_development_dependency 'bundler', '~> 1.14'
   spec.add_development_dependency 'rake', '~> 10.0'

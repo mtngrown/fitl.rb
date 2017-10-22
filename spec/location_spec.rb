@@ -111,6 +111,16 @@ module Fitl
             expect(Location.passive_support.count).to eq 11
           end
         end
+
+        it 'finds opposition' do
+          Location.build_from_yaml file
+          expect(Location.opposition.count).to eq 6
+        end
+
+        it 'finds support' do
+          Location.build_from_yaml file
+          expect(Location.support.count).to eq 12
+        end
       end
     end
 

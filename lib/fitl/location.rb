@@ -6,14 +6,16 @@ module Fitl
   class Location < ActiveRecord::Base
     # TODO: add validations
 
-    scope :province_or_city, -> { where("location_type = 'province' OR location_type = 'city'") }
-
     scope :neutral, -> { where(sentiment: 'neutral') }
+    scope :support, -> { where("sentiment = 'active_support' OR sentiment = 'passive_support'") }
+    scope :opposition, -> { where("sentiment = 'active_opposition' OR sentiment = 'passive_opposition'") }
+
     scope :active_support, -> { where(sentiment: 'active_support') }
     scope :passive_support, -> { where(sentiment: 'passive_support') }
     scope :active_opposition, -> { where(sentiment: 'active_opposition') }
     scope :passive_opposition, -> { where(sentiment: 'passive_opposition') }
 
+    scope :province_or_city, -> { where("location_type = 'province' OR location_type = 'city'") }
     def self.case_for_control
       sql = "locations.name, CASE
           WHEN #{us_count} + #{arvn_count} > #{nva_count} + #{vc_count} THEN 'COIN'
@@ -73,8 +75,8 @@ module Fitl
     # The next step is to acquire Locations which have hidden guerrillas.
     scope :hidden_guerrillas, -> { where('nva_guerrilla_hidden > 0 OR vc_guerrilla_hidden > 0') }
 
-    # TODO: think about using in-memory sqlite3 for handling queries on this data
-    # kludgy
+    # TODO: think about using in-memory sqlite3 for handling queries on this data.
+    # TODO: Move this to its own class.
     def self.build_from_yaml(file)
       require 'yaml'
       locations = YAML.load_file file

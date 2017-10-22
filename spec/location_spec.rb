@@ -99,6 +99,18 @@ module Fitl
             expect(actual).to eq expected
           end
         end
+
+        it 'defaults support to neutral' do
+          Location.build_from_yaml file
+          aggregate_failures do
+            expect(Location.count).to eq 36
+            expect(Location.neutral.count).to eq 18
+            expect(Location.active_opposition.count).to eq 3
+            expect(Location.passive_opposition.count).to eq 3
+            expect(Location.active_support.count).to eq 1
+            expect(Location.passive_support.count).to eq 11
+          end
+        end
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413024854) do
+ActiveRecord::Schema.define(version: 20171021184528) do
 
   create_table "locations", force: :cascade do |t|
     t.string  "name"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170413024854) do
     t.integer "nva_guerrilla_activated", default: 0
     t.integer "vc_guerrilla_hidden",     default: 0
     t.integer "vc_guerrilla_activated",  default: 0
+    t.string  "sentiment",               default: "neutral"
   end
 
 end

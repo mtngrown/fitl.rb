@@ -2,6 +2,22 @@
 
 Experimental code for examining bot action in Fire in the Lake.
 
+
+
+### Testing
+
+Setting up the code to run correctly is a bit outre as it's
+using ActiveRecord outside of a Rails environment. The following
+seems to work for doing the migrations:
+
+* `rake db:environment:set`
+* `rake db:test:prepare`
+
+Don't forget to run `rake db:migrate`.
+
+### Development
+
+
 ## Air Lift
 
 I'm reading a discrepancy in the Air Lift example. Initially, two US

@@ -8,6 +8,12 @@ module Fitl
 
     scope :province_or_city, -> { where("location_type = 'province' OR location_type = 'city'") }
 
+    scope :neutral, -> { where(sentiment: 'neutral') }
+    scope :active_support, -> { where(sentiment: 'active_support') }
+    scope :passive_support, -> { where(sentiment: 'passive_support') }
+    scope :active_opposition, -> { where(sentiment: 'active_opposition') }
+    scope :passive_opposition, -> { where(sentiment: 'passive_opposition') }
+
     def self.case_for_control
       sql = "locations.name, CASE
           WHEN #{us_count} + #{arvn_count} > #{nva_count} + #{vc_count} THEN 'COIN'
@@ -74,9 +80,28 @@ module Fitl
       locations = YAML.load_file file
       locations_hash = {}
       locations.each do |location|
-        locations_hash[location['name']] = Location.create(location)
+        sentiment = initialize_sentiment(location)
+        locations_hash[location['name']] = Location.create(location.merge(sentiment: sentiment))
       end
       locations_hash
+    end
+
+    def self.initialize_sentiment(location)
+      case location['support']
+      when 'active'
+        return 'active_support'
+      when 'passive'
+        return 'passive_support'
+      end
+
+      case location['opposition']
+      when 'active'
+        return 'active_opposition'
+      when 'passive'
+        return 'passive_opposition'
+      end
+
+      'neutral'
     end
 
     # How to determine which are eligible?

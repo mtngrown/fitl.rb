@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :location, class: Fitl::Location do
     country 'South Vietnam'
   end
